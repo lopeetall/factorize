@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" media="screen and (max-device-width: 500px)" href="main.css" />
+<link rel="stylesheet" media="screen and (min-device-width: 500px)" href="wide.css" />
+<!--<link rel="stylesheet" href="main.css" />-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 
+TO-DO
+-create end-of-game congrats
+-create a "factor for me button" answer key
+-remove menu bar and replace with buttons floating at bottom:
+    reload
+    change level (gear)
+    help (question mark: solve it, instructions)
+    about
+-the keyboard pushes up layout (an issue at all?)
+    (think about best input system--input forms may not be the greatest for this reason)
+-change number generation formula to make harder numbers have higher factors, not larger numbers
+
+
+-->
+<script src="factorGame.js"></script>
+
+</head>
+<body onload="factorGame(1)">
+    <div id="topBar" class="iconBar">
+        <div id = "settingsMenu" class = "closedMenu">
+            <div id = "closeSettingsIcon" class="icon">
+                <div class = "iconCover" onClick = "closeSettings()" id="closeSettingsCover">            </div>
+                <object id="closeImage" class="iconImage" type="image/svg+xml" data="closeButton.svg" height = "100%" width = "100%"></object>
+            </div>
+            <div id="levelSelector">
+                <p id="levelText">Level</p>
+                <p class = "levelButton" id="leftButton" onClick="decreaseLevel()"><</p>
+                <p id="levelNumber">1</p>
+                <p class = "levelButton" id="rightButton" onClick="increaseLevel()">></p>
+            </div>
+        </div> 
+        <div id = "gear" class="icon">
+            <div class = "iconCover" onClick = "toggleSettings()" id="gearCover">            </div>
+            <div class = "iconBack" id="gearBack">            </div>
+            <object id= "selectedGear" class = "selectedIconImage" type="image/svg+xml" data="gearWhite.svg" height = "100%" width = "100%"></object>
+            <object class = "iconImage" type="image/svg+xml" data="gearDarkGray.svg" height = "100%" width = "100%"></object>
+        </div>
+        <div id = "aboutMenu" class="closedMenu">
+            <div id = "closeAboutIcon" class="icon">
+                <div class = "iconCover" onClick = "closeAbout()" id="closeAboutCover">            </div>
+                <object id="closeImage" class="iconImage" type="image/svg+xml" data="closeButton.svg" height = "100%" width = "100%"></object>
+            </div>
+        </div>
+        <div id = "about" class="icon">
+            <div class = "iconCover" onClick = "toggleAbout()" id="aboutCover">            </div>
+            <div class = "iconBack" id="aboutBack">            </div>
+            <object id = "selectedAbout" class = "selectedIconImage" type="image/svg+xml" data="aboutWhiteSerif.svg" height = "100%" width = "100%"></object>
+            <object class = "iconImage" type="image/svg+xml" data="aboutDarkGraySerif.svg" height = "100%" width = "100%"></object>
+        </div>
+
+
+
+    </div>
+
+    <div id="bottomBar" class="iconBar">
+        <div id = "reloadButton" class="icon">
+            <div class = "iconCover" onClick = "reloadGame()" id="reloadCover">            </div>
+            <!--<object id = "selectedReload" class = "selectedIcon" type="image/svg+xml" data="reloadDarkGray.svg" height = "100%" width = "100%"></object>-->
+            <object type="image/svg+xml" data="reloadDarkGray.svg" height = "100%" width = "100%"></object>
+        </div>
+    </div> 
+
+
+
+    <div id="pageContainer">       
+    </div>
+
+
+</body>
+</html>
