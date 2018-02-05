@@ -1,9 +1,3 @@
-/*
-WIDE2.CSS
-
-This file is identical to main.css, except that the max-width on pageContainer is set to 400px.
-
-*/
 body {
         font-family: Roboto, serif;
         margin: 0 0 0 0;
@@ -13,6 +7,10 @@ body {
         font-family: Roboto;
         src: url(Roboto\ Slab_regular.ttf);
         }
+    #topBar {
+        background-color:rgba(40,40,40,0.8);
+        position: fixed;
+        }
     input[type="text"]{
         background-color: rgba(0,0,0,0);
         text-align: center;
@@ -20,6 +18,8 @@ body {
         position: absolute;
         float: left;
         -webkit-transform: translate(-50%, -50%);
+        border: 2px solid black;
+        border-radius: 4px;
         }
         .visible{   
             visibility: visible;
@@ -29,21 +29,22 @@ body {
             }
        .gone{     
             display: none;
-            }
+    }
     #pageContainer {
         max-width: 400px;
-        position: relative;
+        position: absolute;
         left: 0;
         right: 0;
         top: 100px;
         margin: 0 auto;
         text-align: center;
-        z-index: 1;
+        /*z-index: 1;*/
         }
     .numberText{
         line-height: 1;
         margin: 0;
         padding: 0;
+        /*z-index: -100;*/
         }
     .newNumberLine{  
         display: inline-block;
@@ -76,16 +77,8 @@ body {
         color: #A0A0A0;
         margin: auto;
         float: left;
-        }
-    #gear {
-        position: fixed;
-        left: 0;
-        }
-    #about {
-        position: fixed;
-        right: 0;
         } 
-    #innerDiv {
+  #innerDiv {
         visibility: visible;
         position: absolute;
         width:auto;
@@ -94,21 +87,19 @@ body {
         }
     #closeSettingsIcon{
         cursor: pointer;
+        position: fixed;
         display: none;
-        float: right;
-        }
-    #closeAboutIcon{
-        cursor: pointer;
-        display: none;
-        float: left;
+        right: 0px;
+        top: 0px;
         }
     .iconBar{
-        position: fixed;
         width: 100%;
+        z-index: 10;
         }
     #reloadButton {
-        position: relative;
         margin: 0 auto;
+        width: 40px;
+        height: 40px;
         }
     .iconCover{
         width: 40px;
@@ -124,78 +115,77 @@ body {
         z-index: -1;
         }
     .icon{
-        width: 40px;
-        height: 40px;
+        width: 52px;
+        height: 52px;
         }
     .iconImage{
         
-        /*margin: 6px;*/
+        margin: 6px;
         width: 40px;
         height: 40px;
         z-index: 2;
         }
     .selectedIconImage{     
-        /*margin: 6px;*/
+        margin: 6px;
         width: 40px;
         height: 40px;
         z-index: 3;
         }
-    #selectedGear{
+    #selectedBurger{
         visibility: hidden;
         position: fixed;
         }
-    #selectedAbout{
-        visibility: hidden;
-        position: fixed;
-        }
-    #settingsMenu {
+    #settingsMenu {      
         color: white;
         font-weight: bold;
-        background-color: rgba(40,40,40,0.8);
         overflow: hidden;
         transition: 0.3s;
-        float: left;
-        text-align: center;
-        left: 0;
+        width: 100%;
+        text-align: left; 
+        color: #E0E0E0;
+       }
+    #menuText {
+        list-style-type: none;
         }
-    #aboutMenu {
+    li {
+        margin: 20px 40px;
+        font-size: 14pt;
+        }
+    li:hover {
         color: white;
-        font-weight: bold;
-        background-color: rgba(40,40,40,0.8);
-        overflow: hidden;
-        transition: 0.3s;
-        float: right;
-        text-align: center;
-        right: 0;
+        }
+    #menuTitle{
+        margin-left: 50px;
+        margin-bottom: 50px;
         }
     .openMenu {
-        width: 150px;
-        z-index: 2;
+        height: 100vh;
         }
     .closedMenu {
-        width: 0px;
+        height: 0px;
         }
-
+    #levelSelector{
+        left: 0;
+        display: inline-block;
+        }
     #levelNumber {        
         padding: 0 0;
         margin: 0 0;
-        color: white;
         display: inline-block;
-        font-size: 24px;
         }
     #levelText {
+        display: inline-block;
         padding: 0 0;
         margin: 42px 0 0 0;
-        color: white;
-        font-size: 24px;
         }
     .levelButton{
         cursor: pointer;
         margin: 0 6px;
         display: inline-block;
         font-size: 24px;
-        color: white;
         }
     #bottomBar {
+        position: absolute;
+    
         bottom: 10px;
         }

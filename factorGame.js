@@ -97,8 +97,7 @@ function processInput(inputField){
 
         var currFactors = [];
         var pageCont = document.getElementById("pageContainer");
-        var lastNumberLine = pageCont.lastChild;
-       
+        var lastNumberLine = pageCont.lastChild;       
         
         for (var j = 0; j < lastNumberLine.children.length; j+=1) {
             currFactors[j] = lastNumberLine.children[j].firstChild.innerHTML;
@@ -106,8 +105,7 @@ function processInput(inputField){
                 lastNumberLine.children[j].setAttribute("onclick", "");
                 }
             }
-        currFactors.splice(currFactors.indexOf(inputField.previousSibling.innerHTML), 1, inputField.value, "×", clickedNum / inputField.value);   
-                
+        currFactors.splice(currFactors.indexOf(inputField.previousSibling.innerHTML), 1, inputField.value, "×", clickedNum / inputField.value);                
         var newLine = newNumberLine(currFactors);
         newLine.style.fontSize = sizeText(currFactors.join(''), pageCont);
         pageCont.appendChild(newLine);
@@ -117,15 +115,12 @@ function processInput(inputField){
     if(checkForWin(newLine) === true) {
         newLine.setAttribute("class", "finishLine");
         }
-         
-    
     }
 
 
 function addTimesSymbols (factorList) {
     var factorListCopy = [];
     factorListCopy[0] = factorList[0];
-
         for (var i = 1; i<factorList.length; i += 1) {
             factorListCopy.push("×");
             factorListCopy.push(factorList[i]);
@@ -134,15 +129,12 @@ function addTimesSymbols (factorList) {
     }
 
 function checkForWin(newLine) {
-
     var compositeBlocks = newLine.getElementsByClassName("compositeBlock");
     if (compositeBlocks.length == 0) {
         return true;
         }
     return false;
     }
-            
-
 
 function factorize(n) {         //creates array of factors
     var factors = [];
@@ -153,8 +145,6 @@ function factorize(n) {         //creates array of factors
     return factors;
     }
 
-
-  
 function grabFirstFactor(n) {       //returns lowest factor of n
     if ( n % 2 == 0 ) {
         return 2;
@@ -222,46 +212,53 @@ function toggleAbout() {
         }   
     }
 
-/*function openNav() {
-    document.getElementById("burgerNav").style.width = "250px";
-    document.getElementById("selectedBurger").style.visibility = "visible";   
-    }
-
-function closeNav() {
-    document.getElementById("burgerNav").style.width = "0";
-    document.getElementById("selectedBurger").style.visibility = "hidden";
-    }*/
 
 function openSettings() {
     document.getElementById("settingsMenu").setAttribute("class", "openMenu");
-    //document.getElementById("settingsMenu").style.width = "150px";   
-    document.getElementById("closeSettingsIcon").style.display = "block";
-    document.getElementById("selectedGear").style.visibility = "visible";
-    //document.getElementById("gearBack").style.backgroundColor = "rgba(40,40,40,0.8)"  
+    document.getElementById("closeSettingsIcon").style.display = "block"; 
+    document.getElementById("burger").style.visibility = "hidden";
     }
 
 function closeSettings() {
     document.getElementById("settingsMenu").setAttribute("class", "closedMenu");
-    //document.getElementById("settingsMenu").style.width = "0";
-    document.getElementById("selectedGear").style.visibility = "hidden"; 
     document.getElementById("closeSettingsIcon").style.display = "none";
-    //document.getElementById("gearBack").style.backgroundColor = "rgba(40,40,40,0)" 
+    document.getElementById("burger").style.visibility = "visible";
     }
 
-function openAbout() {
-    document.getElementById("aboutMenu").setAttribute("class", "openMenu");
-    //document.getElementById("aboutMenu").style.width = "150px";   
-    document.getElementById("closeAboutIcon").style.display = "block";
-    document.getElementById("selectedAbout").style.visibility = "visible";
+function solveIt() {
+    closeSettings();
+    play(currentCompositeBlocks()[0].lastChild, grabFirstFactor(currentCompositeBlocks()[0].firstChild.innerHTML));
+    while (document.getElementsByClassName("finishLine").length <1) {    
+        play(currentCompositeBlocks()[0].lastChild, grabFirstFactor(currentCompositeBlocks()[0].firstChild.innerHTML));
+       }
     }
 
-function closeAbout() {
-    document.getElementById("aboutMenu").setAttribute("class", "closedMenu");
-    //document.getElementById("aboutMenu").style.width = "0";
-    document.getElementById("selectedAbout").style.visibility = "hidden"; 
-    document.getElementById("closeAboutIcon").style.display = "none";
+function play(input, num) {
+    input.setAttribute("class", "visible");
+    input.value = num;
+    processInput(input);
+}
+
+function currentCompositeBlocks() {
+    var compositeBlocks = [];
+    var lastNumberLine = document.getElementsByClassName("newNumberLine")[0];
+    var currNumberBlocks = lastNumberLine.children;
+    for (var j = 0; j < currNumberBlocks.length; j+=1) {
+            if (currNumberBlocks[j].getAttribute("class") == "compositeBlock"){
+                compositeBlocks.push(currNumberBlocks[j]);
+                }
+        }
+    return compositeBlocks;
     }
 
+function currentCompositeNumbers() {
+    var currBlocks = currentCompositeBlocks;
+    var currFactors = [];
+    for (var j = 0; j < currBlocks.length; j+=1) {
+        currFactors.push(currNumberBlocks[j].firstChild.innerHTML);            
+        }
+    return currFactors;       
+    }
 
 function reloadGame() {
     var currLevel = Number(document.getElementById("levelNumber").innerHTML);
