@@ -1,71 +1,79 @@
 body {
         font-family: Roboto, serif;
-        margin: 0 0 0 0;
+        margin: 0;
         background-color: #E0E0E0;
         }
+        
     @font-face {
         font-family: Roboto;
         src: url(Roboto\ Slab_regular.ttf);
+        }
+    div {
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
         }
     #topBar {
         background-color:rgba(40,40,40,0.8);
         position: fixed;
         }
-    input[type="text"]{
-        background-color: rgba(0,0,0,0);
+    #entryDiv {
         text-align: center;
-        margin: 0 auto;
-        position: absolute;
-        float: left;
-        -webkit-transform: translate(-50%, -50%);
+        position:fixed;
+        bottom: 25vh;
+        width: 100%;
+    }
+    .entryInput {
+        text-align: center;
         border: 2px solid black;
         border-radius: 4px;
-        }
-        .visible{   
-            visibility: visible;
-            }
-        .hidden{     
-            visibility: hidden;
-            }
-       .gone{     
-            display: none;
     }
-    #pageContainer {
-        max-width: 400px;
+    .hidden{     
+        visibility: hidden;
+    }
+    .gone {
+        display:none;
+        }
+    #gameContainer {
+        max-width: 62vmin;
         position: absolute;
         left: 0;
         right: 0;
-        top: 100px;
+        top: 20vh;
         margin: 0 auto;
         text-align: center;
-        /*z-index: 1;*/
+        padding-bottom: 40vh;
         }
     .numberText{
         line-height: 1;
+        display:block;
         margin: 0;
         padding: 0;
-        /*z-index: -100;*/
+        -webkit-user-select: none; /* Chrome/Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
         }
-    .newNumberLine{  
+    #winText{
+        line-height: 2;
+        }
+    .line{
         display: inline-block;
+        }    
+    .new{  
         color: #202020;
         }
-    .oldNumberLine{        
-        display: inline-block;
-        color: #A0A0A0;
+    .old{        
+        color: #A0A0A0;   
         }
-    .oldNumberLine .compositeBlock .input[type="text"] {
-        display:none;
-        }
-    .finishLine{
-        display: inline-block;
-        color: black;
-        border: 4px solid black;    
+    .finishBlock {
+        color: #202020;
+        margin: 0 auto;
+        padding: 0;
+        float: left;
         }
     .compositeBlock{
         margin: 0 auto;
         padding: 0;
         float: left;
+        cursor: pointer;
         }
     .primeBlock{
         color: #A0A0A0;
@@ -92,78 +100,191 @@ body {
         right: 0px;
         top: 0px;
         }
+    #closeSettingsIcon.open {
+        display: block;
+        }
+    #closeSettingsIcon.closed {
+        display: none;
+        }
+    #burger {
+        float: left;
+        }    
+    #burger.open {
+        visibility: hidden;
+        }
+    #burger.closed {
+        visibility: visible;
+        }
+    .circle {
+        line-height: 1;
+        padding: 0;
+        margin: 0;
+        }
     .iconBar{
         width: 100%;
         z-index: 10;
         }
     #reloadButton {
+        float: right;
         margin: 0 auto;
-        width: 40px;
-        height: 40px;
+        }
+    #reloadButton.open {
+        display: none;
+        }
+    #reloadButton.closed {
+        display: block;
         }
     .iconCover{
-        width: 40px;
-        height: 40px;
         position: fixed;     
         z-index: 100;
         cursor: pointer;
         }
     .iconBack{
-        width: 40px;
-        height: 40px;
+        width: 10vmin;
+        height: 10vmin;
         position: fixed; 
         z-index: -1;
         }
     .icon{
-        width: 52px;
-        height: 52px;
+        width: 10vmin;
+        height: 10vmin;
         }
     .iconImage{
-        
-        margin: 6px;
-        width: 40px;
-        height: 40px;
+        margin: 1vmin;
+        width: 8vmin;
+        height: 8vmin;
         z-index: 2;
         }
-    .selectedIconImage{     
-        margin: 6px;
-        width: 40px;
-        height: 40px;
-        z-index: 3;
-        }
-    #selectedBurger{
-        visibility: hidden;
-        position: fixed;
-        }
+    
     #settingsMenu {      
-        color: white;
-        font-weight: bold;
         overflow: hidden;
         transition: 0.3s;
         width: 100%;
         text-align: left; 
-        color: #E0E0E0;
+        color: #F0F0F0;
        }
+    #settingsMenu.open {
+        height: 100vh;
+        }
+    #settingsMenu.closed {
+        height: 0vh;
+        }
     #menuText {
         list-style-type: none;
+        font-size: 10vw;
         }
     li {
-        margin: 20px 40px;
-        font-size: 14pt;
+        font-weight: bold;
+        margin: 4vw 4vh;
+        font-size: 6vw;
+        height: 5vh;
         }
     li:hover {
         color: white;
         }
     #menuTitle{
-        margin-left: 50px;
-        margin-bottom: 50px;
+        margin:10vw;
+        font-size: 10vw;
         }
-    .openMenu {
-        height: 100vh;
+    #numPadWrap{
+        background: rgba(160, 160, 160, 1);
+        position: fixed;
+        bottom: 0px;
+        width: 62vw;
+        max-width: 62vmin;
+        border-top-left-radius: 2vmin;
+        border-top-right-radius: 2vmin;
+        margin: 0;
+        z-index:1;
         }
-    .closedMenu {
-        height: 0px;
+    #numPad{
+        text-align: center;
+        transition: height 0.3s ease;
+        -webkit-transition: 0.3s;
+        overflow: hidden;
         }
+    .numPadOpen{
+        }
+    .numPadClosed{
+        height: 0vw;
+        }       
+    #numPadInput {
+        padding: 0;
+        background: rgba(0,0,0,0);
+        width: 20vw;  
+        max-width: 20vmin;   
+        font-size: 6vmin;
+        text-align: center;
+        border: 0;
+        }
+    #inputContainer{
+        display: inline-block;
+        width:34vw;
+        max-width: 34vmin;
+        }
+    #inputRow > * {
+        vertical-align: middle;
+        }
+    a.svg {
+        position: absolute;
+        display: inline-block;
+        }
+    a.svg:after{
+        content: "";
+        position: absolute;
+        top:0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        }
+    .buttonDiv {
+        background: rgba(40,40,40,1);
+        display: inline-block;
+        width: 10vw;
+        height: 10vw;
+        max-width: 10vmin;
+        max-height: 10vmin;
+        border: 0;
+        border-radius: 1vmin;
+        }
+    .buttonCover{
+        position: fixed;
+        z-index:1;
+        width: 10vw;
+        height: 10vw;
+        max-width: 10vmin;
+        max-height: 10vmin;
+        }
+    .buttonImage{
+        z-index: 0;
+        margin-top: 2vmin;
+        width: 6vmin;
+        height: 6vmin;
+        }
+    .button {
+        background: rgba(40,40,40,1);
+        color: white;
+        text-align: center;
+        font-size: 7vmin;
+        width: 10vw;
+        height: 10vw;
+        max-width: 10vmin;
+        max-height: 10vmin;
+        border: 0;
+        border-radius: 1vmin;
+        margin-bottom: 1vmin;
+        margin-top: 1vmin;
+        }
+    .buttonSpacer {
+        display: inline-block;
+        width: 1vw;
+        max-width: 1vmin;
+        }
+    #arrowBar {
+        line-height: 0.5;
+        width: 60vw;
+        max-width: 60vmin;
+        }   
     #levelSelector{
         left: 0;
         display: inline-block;
@@ -176,7 +297,6 @@ body {
     #levelText {
         display: inline-block;
         padding: 0 0;
-        margin: 42px 0 0 0;
         }
     .levelButton{
         cursor: pointer;
@@ -185,7 +305,89 @@ body {
         font-size: 24px;
         }
     #bottomBar {
-        position: absolute;
-    
+        position: fixed;
         bottom: 10px;
         }
+    #arrow{
+        width: 4vh;
+        margin: 1.5vh auto 0.5vh auto;
+        }
+    #arrowImage{
+        width: 100%;
+        transition: 0.3s;
+        }
+    #arrowImage.arrowOpen{
+        transform: rotate(180deg);
+        }
+    #arrowCover{
+        position: relative;
+        height: 100%;
+        width: 100%;
+        }
+    .slidecontainer {
+        display: inline-block;
+        margin-left: 5vw;
+        vertical-align: middle;
+        }
+    .slider {
+       -webkit-appearance: none;
+        width: 20vw;
+        height: 1vw;
+        outline: none;    
+        margin-bottom: 6vw;    
+        }
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 3vw;
+        height: 3vw;
+       	border-radius: 25px;
+        cursor: pointer;
+        background: white;
+    }
+    li.disabled {
+        visibility: hidden;
+        }
+   /* .slider:disabled::-webkit-slider-thumb{
+        -webkit-appearance: none;
+        appearance: none;
+        width: 3vw;
+        height: 3vw;
+       	border-radius: 25px;
+        cursor: default;
+        background: rgb(120, 120, 120);
+    }*/
+    .slider::-moz-range-thumb {
+        width: 3vw;
+        height: 3vw;
+        cursor: pointer;
+        }
+    /*.slider:disabled {
+        opacity: 0.5;
+        }*/
+    .greyed{
+        opacity: 0.5;
+        }
+    #messageContainer{
+        margin: 0 auto;
+        width: 100vw;
+        text-align: center;
+        position: fixed;
+        top: 40vh;
+        z-index: 2;
+        }
+    #messageText{
+        vertical-align: middle;
+        color: white;
+        font-size: 20vmin;
+        }
+    @keyframes messageAnimation { /* flame pulses */
+      0%   { opacity: 0; ;}
+      50%  { opacity: 1; }
+      100% { opacity: 0;} 
+    }
+    .animate-flicker {
+        opacity:0;
+        animation: messageAnimation 3s;
+    }
+       

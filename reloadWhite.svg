@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="reloadDarkGray.svg">
+   sodipodi:docname="reload.svg">
   <defs
      id="defs4">
     <marker
@@ -57,8 +57,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="-405.54353"
-     inkscape:cy="442.27147"
+     inkscape:cx="13.0279"
+     inkscape:cy="447.98576"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -89,7 +89,7 @@
      id="layer1"
      transform="translate(-26.638765,-388.61685)">
     <path
-       style="fill:none;fill-opacity:1;stroke:#202020;stroke-width:100;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:100;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4551-2"
        sodipodi:type="arc"
        sodipodi:cx="-386.37601"
@@ -102,7 +102,7 @@
        sodipodi:open="true"
        transform="scale(-1,-1)" />
     <path
-       style="fill:#202020;fill-opacity:1;stroke:#202020;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        inkscape:transform-center-x="3.4439618"
        inkscape:transform-center-y="0.12842614"
        d="M 26.638773,593.36856 268.45533,663.04409 103.9926,786.37456 Z"
@@ -110,7 +110,7 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
     <path
-       style="fill:none;fill-opacity:1;stroke:#202020;stroke-width:100;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:100;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4551-2-7"
        sodipodi:type="arc"
        sodipodi:cx="390.73764"
@@ -122,7 +122,7 @@
        d="M 631.9119,748.55629 A 247.12344,247.12344 0 0 1 441.34632,936.54435 247.12344,247.12344 0 0 1 191.40047,840.7225"
        sodipodi:open="true" />
     <path
-       style="fill:#202020;fill-opacity:1;stroke:#202020;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        inkscape:transform-center-x="-3.4439351"
        inkscape:transform-center-y="-0.12844928"
        d="M 759.0463,789.88188 505.80112,717.3492 673.12105,594.01878 Z"

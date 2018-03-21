@@ -2,63 +2,55 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<link rel="stylesheet" media="screen and (max-device-width: 500px)" href="mobile.css" />
 <link rel="stylesheet" href="game.css" />
-<!--<link rel="stylesheet" href="main.css" />-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- 
-TO-DO
--create number pad
--create end-of-game congrats
--the keyboard pushes up layout (an issue at all?)
-    (think about best input system--input forms may not be the greatest for this reason)
--change number generation formula to make harder numbers have higher factors, not larger numbers
-
-
--->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="factorGame.js"></script>
-
 </head>
-<body onload="factorGame(1)">
+<body>
 
 <div id = "topBar" class = "iconBar">
-        <div id = "burger" class="icon">
-            <div class = "iconCover" onClick = "toggleSettings()" id="burgerCover">            </div>
-            <div class = "iconBack" id="burgerBack">            </div>
-            <object id= "selectedBurger" class = "selectedIconImage" type="image/svg+xml" data="burgerDarkGray.svg" height = "100%" width = "100%"></object>
-            <object class = "iconImage" id = "burger" type="image/svg+xml" data="burgerWhite.svg" height = "100%" width = "100%"></object>
+        <div id = "burger" class="icon closed">
+            <div class = "iconCover icon" id="burgerCover">            </div>
+            <object class = "iconImage" id = "burgerImage" type="image/svg+xml" data="burgerWhite.svg"></object>
         </div>
-        <div id = "settingsMenu" class = "closedMenu">
-            <div id = "closeSettingsIcon" class="icon">
-                <div class = "iconCover" onClick = "closeSettings()" id="closeSettingsCover">            </div>
-                <object id="closeImage" class="iconImage" type="image/svg+xml" data="closeButton.svg" height = "100%" width = "100%"></object>
+        <div id = "reloadButton" class="closed icon">
+            <div class = "iconCover icon" id="reloadCover">            </div>            
+            <object class = "iconImage" id = "reloadImage" type="image/svg+xml" data="reloadWhite.svg" ></object>
+        </div>
+        <div id = "settingsMenu" class = "closed">
+            <div id = "closeSettingsIcon" class="closed icon">
+                <div class = "iconCover icon" id="closeSettingsCover">            </div>
+                <object id="closeImage" class="iconImage" type="image/svg+xml" data="closeButton.svg"></object>
             </div>
-            <i><b><h1 id = "menuTitle">FACTORIZE</h1></b></i>
+            <h1 id = "menuTitle">FACTORIZE</h1>
             <ul id="menuText">
-                <li>           
-                    <div id="levelSelector">
-                        Difficulty level:
-                        <p class = "levelButton" id="leftButton" onClick="decreaseLevel()"><</p>
-                        <p id="levelNumber">1</p>
-                        <p class = "levelButton" id="rightButton" onClick="increaseLevel()">></p>
-                    </div>
+
+                <li id = "numberLi">
+                    Number size:
+                        <div class="slidecontainer">
+                            <input type="range" min="1" max="6" class="slider" id="digitSlider">
+                        </div>
                 </li>
-                <li onclick="solveIt()">Show solution</li>
+                <li id="levelLi">           
+                    Difficulty level: <div class="slidecontainer">
+                            <input type="range" min="1" max="6" class="slider" id="levelSlider">
+                        </div>
+                </li>
+                <li id="showSolution">Show solution</li>
                 <li>Donate on Patreon</li>
             </ul>
         </div>
 </div>
-    <div id="bottomBar" class="iconBar">
-        <div id = "reloadButton" class="icon">
-            <div class = "iconCover" onClick = "reloadGame()" id="reloadCover">            </div>
-            
-            <object type="image/svg+xml" data="reloadDarkGray.svg" height = "100%" width = "100%"></object>
+
+    <div id="gameContainer">  
+    <div id="numPadWrap">    
+    <div id="numPadarrowBar">
+        <div id = "arrow">
+            <object id = "arrowImage" type="image/svg+xml" data="arrows.svg" class ="arrowClosed"></object>
         </div>
-    </div> 
-
-
-    <div id="pageContainer">       
     </div>
-    <div style= "display: none" id="levelNumber">1</div>
+<div id = "numPad" class = "numPadClosed"><div id="#inputRow"><div class="buttonSpacer"></div><div class="buttonSpacer"></div><div class="buttonDiv"><div class = "buttonCover" id = "clearCover"></div><object id = "clearImage" type="image/svg+xml" data="clear.svg" class ="buttonImage"></object></div><div class="buttonSpacer"></div><div class="buttonSpacer"></div><div id="inputContainer"><input type="text" id="numPadInput"></div><div class="buttonSpacer"></div><div class="buttonSpacer"></div><div class="buttonDiv"><div class = "buttonCover" id = "enterCover"></div><object id = "enterImage" type="image/svg+xml" data="enter.svg" class ="buttonImage"></object></div><div class="buttonSpacer"></div><div class="buttonSpacer"></div></div><div><div class="buttonSpacer"></div><div class="buttonSpacer"></div><button class="numButton button" type="button" id="button0">0</button><div class="buttonSpacer"></div><div class="buttonSpacer"></div><button class="numButton button" type="button" id="button1">1</button><div class="buttonSpacer"></div><div class="buttonSpacer"></div><button class="numButton button" type="button" id="button2">2</button><div class="buttonSpacer"></div><div class="buttonSpacer"></div><button class="numButton button" type="button" id="button3">3</button><div class="buttonSpacer"></div><div class="buttonSpacer"></div><button class="numButton button" type="button" id="button4">4</button><div class="buttonSpacer"></div><div class="buttonSpacer"></div></div><div><div class="buttonSpacer"></div><div class="buttonSpacer"></div><button class="numButton button" type="button" id="button5">5</button><div class="buttonSpacer"></div><div class="buttonSpacer"></div><button class="numButton button" type="button" id="button6">6</button><div class="buttonSpacer"></div><div class="buttonSpacer"></div><button class="numButton button" type="button" id="button7">7</button><div class="buttonSpacer"></div><div class="buttonSpacer"></div><button class="numButton button" type="button" id="button8">8</button><div class="buttonSpacer"></div><div class="buttonSpacer"></div><button class="numButton button" type="button" id="button9">9</button><div class="buttonSpacer"></div><div class="buttonSpacer"></div></div></div></div></div>
+    <div id="messageContainer"><p id = "messageText"></p></div>  
 </body>
 </html>

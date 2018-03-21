@@ -1,122 +1,208 @@
-function factorGame(level) {
+$(window).ready(function() {
 
-    var pageCont = document.getElementById("pageContainer");
-    pageCont.style.width = Math.min(screen.height, screen.width) +"px";
+//add events
+$("#enterCover").click(function()  {submit();});
+$(".numButton").click(function() {typeNumber($(this));});
+$("#clearCover").click(function() {clear();});
+$("#burgerCover").click(function() {openSettings();});
+$("#closeSettingsCover").click(function() {closeSettings();});
+$("#reloadCover").click(function() {reloadGame();});
+$("#levelDecreaseButton").click(function() {decreaseLevel();});
+$("#levelIncreaseButton").click(function() {increaseLevel();});
+$("#showSolution").click(function() {solveIt();});
+$("#numPadarrowBar").click(function(){toggleNumPad(); $("#arrowImage").toggleClass("arrowOpen arrowClosed")});
+$("#levelSlider").attr("max", 1);
+$("#levelSlider").val(1);
+$("#levelSlider").change(function() {reloadGame();});
+$("#levelLi").addClass("disabled");
+//$("#levelLi").addClass("greyed");
+$("#digitSlider").attr("max", 8);
+$("#digitSlider").attr("min", 2);
+$("#digitSlider").val(2);
+$("#digitSlider").change(function() {reloadGame();});
+$("#messageContainer").css("display", "none");
+$("#messageContainer").bind('oanimationend animationend webkitAnimationEnd', function() { 
+   messageOff(); 
+});
 
-    var topNum = [0];
-    var forbidden  = [0,1,2,3,4,5,6,7,8,9,512, 1024, 2048, 6561, 4096, 8192];
-    while (forbidden.indexOf(topNum[0]) != -1) {
-        topNum[0] = Math.floor(9*Math.pow(10,level)*Math.random()+Math.pow(10,level))*Math.floor(9*Math.random()+2);    
-        }
-    var factorStringArray = addTimesSymbols(topNum);
-    var firstLine = newNumberLine(factorStringArray);
-    firstLine.style.fontSize = sizeText(factorStringArray.join(''), pageCont);
-    pageCont.appendChild(firstLine);
+primes = primesBelow(100000);
+
+primeDigits = {
+    1:2,
+    2:11,
+    3:101,
+    4:1009,
+    5:10007,
+    6:100003,
+    7:1000003,
+    8:10000019
     }
 
-
-function newNumberLine (currFactors) {      //creates a new div line at the correct size, makes inputs invisible, fills in number blocks
-    var newLine = document.createElement("div");
-    newLine.setAttribute("class","newNumberLine");
-    for (var i = 0; i<currFactors.length; i++) {
-        newLine.appendChild(newBlock(currFactors[i], isPrime(Number(currFactors[i]))));
-        }    
-    return newLine;
+primeDigitsIndex = {
+    2:0,
+    11:4,
+    101:25,
+    1009:168,
+    10007:1229,
+    1000003:9592,
+    10000003:78498,
+    100000019:664579
     }
 
+});
 
-function isPrime(num) {
-    if (num % 2 === 0 && num !== 2) {
-        return false;
+window.onload = function(){placeNewLine([getSeed()])};
+
+function reloadGame() {
+    $("#gameContainer").children('.line').remove();
+    $("#levelSlider").attr("max", Math.floor(Number($("#digitSlider").val())/2));
+    if (Number($("#digitSlider").val())/2 >= 2) {
+        $("#levelLi").removeClass("disabled");
         }
-    for (var i=3; i<=Math.floor(Math.sqrt(num)); i+=1) {
-        if (num % i === 0 && num !== i) {
-            return false;
+    placeNewLine([getSeed()]);
+    }
+
+function typeNumber(button) {
+    $("#numPadInput").val($("#numPadInput").val()+$(button).html());
+    }
+
+function submit() {
+    play(Number($("#numPadInput").val()));
+    }
+
+function placeNewLine(arr) {
+    var newl = createLineObject(arr);
+    $("#gameContainer").append($(newl));
+    if ($("#numPad").hasClass("numPadOpen")) {
+        $(".new.line").find(".compositeBlock").first().addClass("clicked");
+        if ($(".line").length > 1) {
+            $(".new.line").find(".compositeBlock").first().find(".circle").removeClass("gone");
             }
         }
-    return true;
-    }
-
-function newBlock(num, primality) {
-    var block = document.createElement("div");
-    var text = document.createElement("p");
-    text.setAttribute("class","numberText");
-    text.innerHTML = num;
-    block.appendChild(text);
-    if (num !== "×" && primality === false) {
-        block.setAttribute("class","compositeBlock");
-        block.setAttribute("onClick","toggleInput(this)");
-        var newInput = document.createElement("input");
-        newInput.setAttribute("type", "text");
-        newInput.setAttribute("class", "hidden");
-        newInput.setAttribute("onchange", "processInput(this)");
-        newInput.style.width = "100px";
-        newInput.style.value = "###";
-        block.appendChild(newInput);
-        }
-    else if (num !== "×" && primality === true) {
-        block.setAttribute("class","primeBlock");
-        }
-        else {
-            block.setAttribute("class","timesBlock");
-            }   
-    return block;
-    }
-
-function toggleInput (clicked) {
-    var visibleInputs = document.getElementsByClassName("visible");
-    for (var i = 0; i < visibleInputs.length; i+=1) {    
-        visibleInputs[i].setAttribute("class", "hidden");
-        }
-    clicked.children[1].setAttribute("class", "visible");
-    clicked.children[1].focus();        
-    }
-
-
-
-function oldToggleInput(clicked){
-    for (var i = 0; i < clicked.parentNode.children.length; i+=2) {
-        if (clicked.parentNode.children[i].children[1].getAttribute("class") == "visible" && clicked.parentNode.children[i] !== clicked){
-            clicked.parentNode.children[i].children[1].setAttribute("class", "hidden");        
-            }
-        }
-
-    if (clicked.children[1].getAttribute("class") == "hidden") {
-        clicked.children[1].setAttribute("class", "visible");
-        clicked.children[1].focus();
-        }
-    }
-
-function processInput(inputField){
-    var clickedNum = Number(inputField.previousSibling.innerHTML);
-    if (clickedNum % inputField.value === 0 && inputField.value >= 2 && inputField.value != clickedNum){
-        var activeInputs = document.getElementsByClassName("visible");
-        for (var i = 0; i < activeInputs.length; i+=1) {
-            activeInputs[i].setAttribute("class", "gone");
-            }
-
-        var currFactors = [];
-        var pageCont = document.getElementById("pageContainer");
-        var lastNumberLine = pageCont.lastChild;       
-        
-        for (var j = 0; j < lastNumberLine.children.length; j+=1) {
-            currFactors[j] = lastNumberLine.children[j].firstChild.innerHTML;
-            if (lastNumberLine.children[j].getAttribute("class") === "compositeBlock") {
-                lastNumberLine.children[j].setAttribute("onclick", "");
+    $(newl).find(".numberText").css("font-size", sizeText($(newl), $("#gameContainer").width())+"vmin");
+          if (checkForWin() === true) {  
+                win();                     
                 }
-            }
-        currFactors.splice(currFactors.indexOf(inputField.previousSibling.innerHTML), 1, inputField.value, "×", clickedNum / inputField.value);                
-        var newLine = newNumberLine(currFactors);
-        newLine.style.fontSize = sizeText(currFactors.join(''), pageCont);
-        pageCont.appendChild(newLine);
-        newLine.previousSibling.setAttribute("class","oldNumberLine");
-         }              
-
-    if(checkForWin(newLine) === true) {
-        newLine.setAttribute("class", "finishLine");
+    if ($(".line").length > 1) {
+        window.scrollTo(0,document.querySelector("#gameContainer").scrollHeight); 
         }
     }
 
+function getSeed() {
+    var l = $("#levelSlider").val();
+    var d = $("#digitSlider").val();
+    var factors = []
+    var prod = 1;
+    var newP = 1;
+    while (Math.log10(prod) < d-1) {
+            newP = getPrime(l);//get a new prime with the right number of digits            
+            factors.push(newP);
+            prod *= newP;
+    }
+    return prod;
+}
+
+function prod(arr) {
+    var k = 1;
+    for (i in arr) {
+        k *= arr[i];
+        }
+    return k; 
+}
+
+function primesBelow(n) {
+    var sieve = new Array(n);
+    var primes = [];
+    for (var test = 2; test < n; ++test) {
+        if (sieve[test]) {
+            // NOT PRIME
+            }
+        else {
+            primes.push(test);
+            for (var pm = test; pm < n; pm += test)
+                sieve[pm] = true;
+            }
+        }
+    return primes;
+}
+
+    
+
+function getPrime(d) { //gets a random prime with a certain number of digits
+    var maxIndex = primeDigitsIndex[primeDigits[Number(d)+1]];  
+    var minIndex = primeDigitsIndex[primeDigits[Number(d)]];
+    var newPrimeIndex = Math.floor(Math.random() * (maxIndex-minIndex)) + minIndex;
+    return primes[newPrimeIndex];
+    }
+
+
+function play() {
+    if($(".clicked").length > 0){
+        var num = Number($("#numPadInput").val());
+        $("#numPadInput").val("");
+        var dividend = Number($(".clicked").find(".numberText").text());
+        if (dividend % num === 0 && num >= 2 && num !== dividend) {
+            var blockIndex = Number($(".clicked").attr("id").split("num")[1]);
+            $(".clicked").removeClass("clicked");
+            var arr = [];
+            $(".new").find(".numberText").each(function() {arr.push($(this).text())});
+            $(".entryInput").addClass("hidden");
+            $(".new").addClass("old").removeClass("new");
+            arr.splice(blockIndex, 1 , num, "×", dividend / num);
+            $(".clicked").removeClass("clicked");
+            $(".circle").addClass("gone");
+            placeNewLine(arr);
+        }
+    }
+}
+
+function win() {
+    closeNumPad();
+    closeArrow();
+    createEndLine();
+    }
+
+function createEndLine() {
+    var arr=[];
+    $(".line").last().find(".primeBlock").find(".numberText").each(function() {arr.push(Number($(this).text()))});
+    var counts = {};
+    var uniFactors = [];
+    var finishText = "";
+    var prod = 1;
+    arr.forEach(function(x) {
+             counts[x] = (counts[x] || 0)+1;
+             prod *= parseInt(x);
+             if (uniFactors.indexOf(x) == -1) {
+                uniFactors.push(x);
+                }          
+             });
+    uniFactors.sort();
+    finishText = prod + " = ";
+    uniFactors.forEach(function(y) {
+        finishText += ("" + y + String(counts[y]).sup());
+        });
+    var winDiv = $("<div id = 'winLine'><p id='winText'>" + finishText + "</p></div>");
+    $(winDiv).addClass("line");
+    $("#gameContainer").append(winDiv);
+    $("#winText").css("font-size", sizeText(winDiv, $("#gameContainer").width())+"vmin");
+    $("#winText").addClass("numberText");
+    }
+
+function checkForWin() {
+    if ($(".new").find(".compositeBlock").length === 0) {
+        return true;
+        }
+    return false;
+}
+
+function factorCount(num) {
+    remainder = num;
+    i = 1;
+    while (isPrime(remainder) === false) {
+        remainder = remainder / getFirstFactor(remainder);
+        i++;}
+    return i;
+}
 
 function addTimesSymbols (factorList) {
     var factorListCopy = [];
@@ -128,13 +214,113 @@ function addTimesSymbols (factorList) {
     return factorListCopy;
     }
 
-function checkForWin(newLine) {
-    var compositeBlocks = newLine.getElementsByClassName("compositeBlock");
-    if (compositeBlocks.length == 0) {
-        return true;
+function createLineObject(arr){
+    $(".old").find(".compositeBlock").off("click");
+    var newLineIndex = (arr.length - 1) / 2;
+    var div = $("<div></div>");
+    div.addClass("new").addClass("line");
+    div.attr("id", "line" + newLineIndex);
+    for (t in arr) {
+        b = createNumberBlockObject(arr[t]);
+        if (t !== "×") {
+            b.attr("id", div.attr("id") + "num" + t);
         }
-    return false;
+        b.appendTo(div);
     }
+    return div;
+}
+
+function clear(){
+    $("#numPadInput").val("");
+    }
+
+
+function createNumberBlockObject(num) {
+    var div = $("<div></div>");
+    $("<p class = 'numberText'>" + num + "</p>").appendTo(div);
+    if (num == "×") {
+        div.attr("class","timesBlock")
+        }
+    else {
+        if (isPrime(Number(num)) === true) {
+            div.addClass("primeBlock");
+            }            
+        else {
+            div.addClass("compositeBlock");
+            div.append('<svg height="2vw" width="2vw"><circle class = "circle gone" cx="1vw" cy="1vw" r="1vw" fill="black" /></svg>');
+            div.click(function() {
+                $(".line").find(".clicked").removeClass("clicked");
+                $(this).addClass("clicked");
+                $(".circle").addClass("gone");
+                $(this).find(".circle").removeClass("gone");
+                if ($("#numPad").hasClass("numPadClosed")) {
+                    $("#numPad").toggleClass("numPadClosed numPadOpen");
+                    $("#arrowImage").toggleClass("arrowOpen arrowClosed");
+                    }                             
+                });
+            }
+        }    
+    return div   
+}
+
+function sizeText(message, cwidth) {
+    var f = 1;
+    while ($(message).css("font-size", f +"vmin").width() < cwidth) {
+        f+=10;
+        }
+    f-=10;
+    while ($(message).css("font-size", f +"vmin").width() < cwidth) {
+        f++;
+        }
+    f--;
+    while ($(message).css("font-size", f +"vmin").width() < cwidth) {
+        f+=0.1;
+        }
+    f-=0.1;
+    while ($(message).css("font-size", f +"vmin").width() < cwidth) {
+        f+=0.01;
+        }
+    f-=0.01;
+    f=Math.round(100*(f))/100;
+    $(message).css("font-size", "");
+    return f;
+    }
+
+function toggleSettings() {
+    $("#settingsMenu").toggleClass("closed open");
+    $("#burger").toggleClass("closed open");
+    $("#closeSettingsIcon").toggleClass("closed open");
+    $("#reloadButton").toggleClass("closed open");
+    }
+
+function increaseLevel() {
+    var currentLevel = Number($("#levelNumber").html());
+    if (currentLevel < 10) {
+        $("#levelNumber").html(1+currentLevel);
+        }
+    }
+
+function decreaseLevel() {
+    var currentLevel = Number($("#levelNumber").html());
+    if (currentLevel > 1) {
+        $("#levelNumber").html(-1+currentLevel);
+        }
+    }
+
+function openSettings() {
+    $("#settingsMenu").toggleClass("closed open");
+    $("#burger").toggleClass("closed open");
+    $("#closeSettingsIcon").toggleClass("closed open");
+    $("#reloadButton").toggleClass("closed open");
+    }
+
+function closeSettings() {
+    $("#settingsMenu").toggleClass("closed open");
+    $("#burger").toggleClass("closed open");
+    $("#closeSettingsIcon").toggleClass("closed open");
+    $("#reloadButton").toggleClass("closed open");
+    }
+
 
 function factorize(n) {         //creates array of factors
     var factors = [];
@@ -144,6 +330,18 @@ function factorize(n) {         //creates array of factors
         }
     return factors;
     }
+
+function solveIt() {
+    closeSettings(); 
+    var i = 0;
+    while (checkForWin() !== true) {
+        $(".clicked").removeClass("clicked");
+        var firstCompositeBlock = $(".new.line").find(".compositeBlock").first();
+        firstCompositeBlock.addClass("clicked");
+        $("#numPadInput").val(grabFirstFactor(Number($(firstCompositeBlock).find(".numberText").text())));
+        play();
+        }
+    } 
 
 function grabFirstFactor(n) {       //returns lowest factor of n
     if ( n % 2 == 0 ) {
@@ -157,142 +355,60 @@ function grabFirstFactor(n) {       //returns lowest factor of n
     return null;
     }
 
-
-function sizeText(message, container){
-    var targetSize = container.clientWidth-150;
-    var innerDiv=document.createElement("div");
-        innerDiv.setAttribute("id","innerDiv");
-        container.appendChild(innerDiv);
-        innerDiv.innerHTML = message;
-    var textWidth = innerDiv.clientWidth;
-    var initFS = window.getComputedStyle(innerDiv, null).getPropertyValue('font-size');
-        initFS=Number(initFS.slice(0,-2));
-    var i=1;    
-    while (targetSize > textWidth){
-        i += 1;
-        innerDiv.style.fontSize=i*initFS+"px";
-        textWidth = innerDiv.clientWidth;
-        }  
-    innerDiv.style.fontSize=(i-1)*initFS+"px"; 
-    textWidth = innerDiv.clientWidth;
-    var curFS = window.getComputedStyle(innerDiv, null).getPropertyValue('font-size');
-        curFS=Number(curFS.slice(0,-2));
-    while (targetSize >= textWidth){
-        curFS+=1;
-        innerDiv.style.fontSize = curFS+"px";
-        textWidth = innerDiv.clientWidth;
+function isPrime(num) {
+    if (num % 2 === 0 && num !== 2) {
+        return false;
         }
-    container.removeChild(innerDiv);
-    return (curFS-1)+"px";    
-    }
-function toggleNav() {
-    if (document.getElementById("burgerNav").style.width == "250px") {
-        closeNav();
+    for (var i=3; i<=Math.floor(Math.sqrt(num)); i+=1) {
+        if (num % i === 0 && num !== i) {
+            return false;
+            }
         }
-    else {
-        openNav();
-        }   
+    return true;
     }
 
-function toggleSettings() {
-    if (document.getElementById("settingsMenu").getAttribute("class") == "openMenu") {
-        closeSettings();
-        }
-    else {
-        openSettings();
-        }   
+function messageOn() {
+    $("#pageContainer").addClass("dim");
+    $("#messageContainer").css("display", "block");
     }
 
-function toggleAbout() {
-    if (document.getElementById("aboutMenu").getAttribute("class") == "openMenu") {
-        closeAbout();
-        }
-    else {
-        openAbout();
-        }   
+function messageOff() {
+    $("#pageContainer").removeClass("dim");   
+    $("#messageContainer").css("display", "none");
+    } 
+
+function messageText(t) {
+    $("#messageText").text(t);
     }
 
-
-function openSettings() {
-    document.getElementById("settingsMenu").setAttribute("class", "openMenu");
-    document.getElementById("closeSettingsIcon").style.display = "block"; 
-    document.getElementById("burger").style.visibility = "hidden";
+function fadeMessage() {
+    $("#messageContainer").addClass("animate-flicker");
     }
 
-function closeSettings() {
-    document.getElementById("settingsMenu").setAttribute("class", "closedMenu");
-    document.getElementById("closeSettingsIcon").style.display = "none";
-    document.getElementById("burger").style.visibility = "visible";
+function displayMessage(t) {
+    messageText(t);
+    messageOn();
+    fadeMessage();
+    }
+function toggleNumPad() {
+    $("#numPad").toggleClass("numPadClosed numPadOpen");
     }
 
-function solveIt() {
-    closeSettings();
-    play(currentCompositeBlocks()[0].lastChild, grabFirstFactor(currentCompositeBlocks()[0].firstChild.innerHTML));
-    while (document.getElementsByClassName("finishLine").length <1) {    
-        play(currentCompositeBlocks()[0].lastChild, grabFirstFactor(currentCompositeBlocks()[0].firstChild.innerHTML));
-       }
+function closeNumPad() {
+    $("#numPad").removeClass("numPadOpen").addClass("numPadClosed");
+    }
+function openNumPad() {
+    $("#numPad").addClass("numPadOpen").removeClass("numPadClosed");
     }
 
-function play(input, num) {
-    input.setAttribute("class", "visible");
-    input.value = num;
-    processInput(input);
-}
-
-function currentCompositeBlocks() {
-    var compositeBlocks = [];
-    var lastNumberLine = document.getElementsByClassName("newNumberLine")[0];
-    var currNumberBlocks = lastNumberLine.children;
-    for (var j = 0; j < currNumberBlocks.length; j+=1) {
-            if (currNumberBlocks[j].getAttribute("class") == "compositeBlock"){
-                compositeBlocks.push(currNumberBlocks[j]);
-                }
-        }
-    return compositeBlocks;
+function toggleArrow() {
+    $("#arrowImage").toggleClass("arrowOpen arrowClosed");
     }
 
-function currentCompositeNumbers() {
-    var currBlocks = currentCompositeBlocks;
-    var currFactors = [];
-    for (var j = 0; j < currBlocks.length; j+=1) {
-        currFactors.push(currNumberBlocks[j].firstChild.innerHTML);            
-        }
-    return currFactors;       
+function openArrow() {
+    $("#arrowImage").addClass("arrowOpen").removeClass("arrowClosed");
     }
 
-function reloadGame() {
-    var currLevel = Number(document.getElementById("levelNumber").innerHTML);
-    var pageCont = document.getElementById("pageContainer");
-    if (pageCont.lastChild.nodeType == 3) {
-        return;
-        }    
-    if (pageCont.lastChild.getAttribute("class") === "newNumberLine") {
-        pageCont.removeChild(pageCont.lastChild);
-        }    
-    var oldLines = document.getElementsByClassName('oldNumberLine');
-    while(oldLines[0]) {
-        oldLines[0].parentNode.removeChild(oldLines[0]);
-        }
-    factorGame(currLevel);
+function closeArrow() {
+    $("#arrowImage").removeClass("arrowOpen").addClass("arrowClosed");
     }
-
-function increaseLevel() {
-    var currLevel = Number(document.getElementById("levelNumber").innerHTML);
-    if (currLevel <= 7) {
-        currLevel +=1;
-        document.getElementById("levelNumber").innerHTML = currLevel;
-        reloadGame();
-        }
-        
-    }
-
-function decreaseLevel() {
-    var currLevel = Number(document.getElementById("levelNumber").innerHTML);
-    if (currLevel >= 1) {
-        currLevel -=1;
-        document.getElementById("levelNumber").innerHTML = currLevel;
-        reloadGame();
-        }
-    }
-
-
